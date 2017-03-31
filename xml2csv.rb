@@ -1,10 +1,16 @@
 require 'csv'
 require 'nokogiri'
 
-file = File.read('t1.xml')
+# read from stdin
+file = IO.new STDIN.fileno
+
 doc = Nokogiri::XML(file)
 a = []
-csv = CSV.open('output.csv', 'wb') 
+#csv = CSV.open('output.csv', 'wb')
+#csv = CSV.open(IO.new STDOUT.fileno, 'wb')
+
+# write CSV to stdout
+csv = CSV($stdout)
 
 doc.css('Equipment').each do |node|
     a.push << node.content.split
