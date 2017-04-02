@@ -14,26 +14,22 @@ csv = CSV($stdout, force_quotes: false)
 
 doc.css('Equipment').each do |node|
 
-  
   n = 0
-  node.content.split.each do | f |
-    print "[#{n}] #{f}\n"
-    n = n + 1
-    a.push << [ f ]
+  node.elements.each do |e|
+     puts "[#{n}]  #{e.name}: #{e.content}"
+     n = n+1
   end
+  
+#  content = node.content
+#   
+#  if (content.is_a?(String))
+#    a.push << [ content ]
+#  else      
+#    a.push << content.split  
+#  end  
 
-#  contents = node.content.split
-#  if (contents.length == 1)
-#    a.push << contents
-#  else
-#    joined = contents.join(' ')
-#    a.push << [ joined ]
-#  end
-
-
-  #a.push << '"'
   
 end
 
-#a.each { |a| csv << a }
+a.each { |a| csv << a }
 
