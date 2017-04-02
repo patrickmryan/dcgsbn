@@ -1,20 +1,39 @@
 require 'csv'
 require 'nokogiri'
+require 'open-uri'
 
 # read from stdin
 file = IO.new STDIN.fileno
-
 doc = Nokogiri::XML(file)
-a = []
-#csv = CSV.open('output.csv', 'wb')
-#csv = CSV.open(IO.new STDOUT.fileno, 'wb')
 
-# write CSV to stdout
-csv = CSV($stdout)
+#print doc.to_s
+
+
+a = []
+csv = CSV($stdout, force_quotes: false)
 
 doc.css('Equipment').each do |node|
-    a.push << node.content.split
+
+  
+  n = 0
+  node.content.split.each do | f |
+    print "[#{n}] #{f}\n"
+    n = n + 1
+    a.push << [ f ]
+  end
+
+#  contents = node.content.split
+#  if (contents.length == 1)
+#    a.push << contents
+#  else
+#    joined = contents.join(' ')
+#    a.push << [ joined ]
+#  end
+
+
+  #a.push << '"'
+  
 end
 
-a.each { |a| csv << a }
+#a.each { |a| csv << a }
 
