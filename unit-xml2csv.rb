@@ -13,7 +13,7 @@ csv = CSV($stdout, force_quotes: false)
 headings = []
 data = []  
 
-doc.css('Equipment').each do |node|
+doc.css('Unit').each do |node|
   
   n = 0
   node.elements.each do |e|
@@ -26,6 +26,11 @@ doc.css('Equipment').each do |node|
     end
  
   end
+  
+  link_node = doc.css('LinkName')
+  
+  headings << 'Symbology'
+  data << link_node.children.first.content().to_s 
   
   
 end
