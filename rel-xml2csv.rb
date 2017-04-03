@@ -25,6 +25,7 @@ rel_keys = [ 'Id',
 # write out the headers
 csv << rel_keys
 
+# iterate over the files on the command line
 ARGV.each do | file |
   
   doc = File.open(file) { |f| Nokogiri::XML(f) }

@@ -45,16 +45,18 @@ csv = CSV($stdout, force_quotes: false)
 # write out the headers
 csv << all_headers
 
+entity_name = 'Equipment'
+
 ARGV.each do | file |
   doc = File.open(file) { |f| Nokogiri::XML(f) }
-    
-  doc.css('Equipment').each do |node|
+
+  doc.css(entity_name).each do |node|
 
     row_hash = Hash.new('')
 
     # extract the standard info
     standard_columns.each do | name |
-      set = doc.xpath("/Equipment/#{name}")
+      set = doc.xpath("/#{entity_name}/#{name}")
 
       if set.length > 0
         node = set.first
