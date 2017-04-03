@@ -3,18 +3,18 @@ require 'nokogiri'
 require 'open-uri'
 
 
-csv = CSV($stdin)
+#csv = CSV($stdin)
+#
+#n = 1
+#csv.each do |row|
+#  puts "row #{n}"
+#  row.each do |col|
+#    puts "    #{col} "
+#  end
+#  print "\n"
+#  n = n+1
+#end
 
-n = 1
-csv.each do |row|
-  puts "row #{n}"
-  row.each do |col|
-    puts "    #{col} "
-  end
-  print "\n"
-  n = n+1
-end
-exit
 
 
 doc = Nokogiri::XML::Document.new()
