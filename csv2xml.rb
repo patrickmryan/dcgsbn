@@ -4,6 +4,12 @@ require 'open-uri'
 
 
 doc = Nokogiri::XML::Document.new()
+doc.encoding=("UTF-8")
+doc['standalone'] = 'yes'
+  
+#doc.keys.each do |key|
+#  puts "#{key} -> " + doc[key] + "\n"
+#end
 
 equip = Nokogiri::XML::Element.new("Equipment",doc)
 
@@ -22,9 +28,11 @@ equip.add_child(secinfo)
 sec_tags = [ "ClassificationInfo", "DeclassificationInfo", "OwnerProducer", "SecurityID" ]
   
 sec_tags.each do |tag|
-  secinfo.add_child("<#{tag}>")
+  child = secinfo.add_child("<#{tag}>test data</#{tag}>")
   
 end
 
 
-puts doc.to_s
+#puts doc.to_s
+
+doc.write_to(IO.new(STDOUT.fileno), :encoding => 'UTF-8')
