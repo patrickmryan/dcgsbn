@@ -18,7 +18,8 @@ rel_keys = [ 'Id',
   'LeftName',
   'RightEntityType',
   'RightGuid',
-  'RightName'
+  'RightName',
+  'TypeAlias'
 ]
 
 # write out the headers
