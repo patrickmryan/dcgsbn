@@ -27,15 +27,26 @@ doc.css('Unit').each do |node|
  
   end
   
-  link_node = doc.css('LinkName')
+  prop_columns = [ 'Raw Unit Name', 'Number of Enlisted', 'Number of NCOs', 'Number of Personnel', 'Number of Officers'] 
+  nodeset = doc.css('PropertyValues') 
+  property_values = nodeset.first.elements
   
-  headings << 'Symbology'
-  data << link_node.children.first.content().to_s 
-  
-  
-end
+  prop_columns.each do | key |
 
-# a.each { |a| csv << a }
+    value = nil
+    property_values.each do |val|
+      name = val.elements.find { |e | e.name() == 'PropertyName' } 
+      if (name.content() == key)
+        value = val.elements.find { |e | e.name() == 'Value' } 
+      end
+    end
+        
+    
+    headings << key
+    data << (value ? value : '')  # use space if property not found
+  end
+
+end
 
 csv << headings
 csv << data
