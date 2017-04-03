@@ -49,10 +49,6 @@ doc.css('Unit').each do |node|
   # now get lat/lon
   
   locations = doc.xpath("//Unit//Locations")
-#  locations.each do |loc|
-#    puts loc.to_s
-#  end
-#  exit
 
   loc = locations.first.elements.first
 #  puts loc.class.to_s + " " + loc.to_s
