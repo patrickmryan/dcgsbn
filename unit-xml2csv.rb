@@ -53,19 +53,12 @@ all_headers.concat(location_columns)
 
 csv = CSV($stdout, force_quotes: false)
 
+# write out the headers
 csv << all_headers
 
-# read from stdin
-
 ARGV.each do | file |
-
   doc = File.open(file) { |f| Nokogiri::XML(f) }
-
-  #file = IO.new STDIN.fileno
-  #doc = Nokogiri::XML(file)
-
-  # a = []
-
+    
   doc.css('Unit').each do |node|
 
     row_hash = Hash.new('')
@@ -98,9 +91,6 @@ ARGV.each do | file |
         end
       end
 
-      #    headings << key
-      #    data << (value ? value : '')  # use space if property not found
-
       row_hash[key] = (value ? value : '') # use space if property not found
 
     end
@@ -108,10 +98,7 @@ ARGV.each do | file |
     # now get lat/lon
 
     locations = doc.xpath("//Unit//Locations")
-
     loc = locations.first.elements.first
-    #  puts loc.class.to_s + " " + loc.to_s
-    #  exit
     location_columns.each do |key|
       prop = loc.elements.find { | e | e.name() == key }
 
