@@ -3,6 +3,7 @@ require 'nokogiri'
 require 'open-uri'
 
 # read from stdin
+
 file = IO.new STDIN.fileno
 doc = Nokogiri::XML(file)
 
