@@ -73,9 +73,14 @@ ARGV.each do | file |
     # extract the standard info
     standard_columns.each do | name |
       set = doc.xpath("/Unit/#{name}")
-      node = set.first
 
-      row_hash[name] = node.content()
+      if set.length > 0
+        node = set.first
+        value = node.content()
+      else
+        value = ''
+      end
+      row_hash[name] = value
 
     end
 
