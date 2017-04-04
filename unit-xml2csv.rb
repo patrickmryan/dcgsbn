@@ -73,16 +73,9 @@ $stdin.each do | line |
 
   # extract the standard info
   standard_columns.each do | name |
-    set = doc.xpath("/#{entity_name}/#{name}")
-
-    if set.length > 0
-      node = set.first
-      value = node.content()
-    else
-      value = ''
-    end
-    row_hash[name] = value
-
+    results = doc.xpath("/#{entity_name}/#{name}")
+    row_hash[name] = (!results.empty? ? results.first.content : '') 
+    
   end
 
   # now get specific properties
@@ -104,10 +97,10 @@ $stdin.each do | line |
   end
 
   # now get lat/lon
-  nodeset = doc.xpath("/#{entity_name}/Locations/Location")
+  results = doc.xpath("/#{entity_name}/Locations/Location")
 
-  if (!nodeset.empty?)
-    loc = nodeset.first
+  if (!results.empty?)
+    loc = results.first
 
     location_columns.each do |key|
       prop = loc.elements.find { | e | e.name() == key }
@@ -121,16 +114,9 @@ $stdin.each do | line |
 
   # get the LinkName
   name = 'LinkName'
-  set = doc.xpath("/#{entity_name}/Multimedias/Multimedia/#{name}")
-  
-  if set.length > 0
-    node = set.first
-    value = node.content()
-  else
-    value = ''
-  end
-  row_hash[name] = value
-  
+  results = doc.xpath("/#{entity_name}/Multimedias/Multimedia/#{name}")
+  row_hash[name] = (!results.empty? ? results.first.content : '') 
+    
   # finally, write out the collected data as a row to the csv file
   csv << all_headers.collect { | key | row_hash[key] }
 
