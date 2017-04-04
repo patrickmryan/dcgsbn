@@ -55,16 +55,9 @@ $stdin.each do | line |
 
   # extract the standard info
   standard_columns.each do | name |
-    set = doc.xpath("/#{entity_name}/#{name}")
-
-    if set.length > 0
-      node = set.first
-      value = node.content()
-    else
-      value = ''
-    end
-    row_hash[name] = value
-
+    results = doc.xpath("/#{entity_name}/#{name}")
+    row_hash[name] = (!results.empty? ? results.first.content : '') 
+    
   end
 
   # finally, write out the collected data as a row to the csv file
