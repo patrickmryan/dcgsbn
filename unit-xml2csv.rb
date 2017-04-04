@@ -48,6 +48,7 @@ location_columns = [ 'Latitude', 'Longitude']
 all_headers = Array.new(standard_columns)
 all_headers.concat(prop_columns)
 all_headers.concat(location_columns)
+all_headers <<  'LinkName' 
 
 csv = CSV($stdout, force_quotes: true)
 
@@ -59,6 +60,10 @@ entity_name = 'Unit'
 # read standard input.  expect one filename per line of input.
 $stdin.each do | line |
   file = line.chomp()
+  if (!File.exists?(file))
+    puts "#{file}: cannot open"
+    exit
+  end
   doc = File.open(file) { |f| Nokogiri::XML(f) }
 
   #doc.css(entity_name).each do |node|
@@ -114,6 +119,18 @@ $stdin.each do | line |
   k = 'Number'
   row_hash[k] = "'" + row_hash[k]  # prepend a single quote to force Excel to import at text
 
+  # get the LinkName
+  name = 'LinkName'
+  set = doc.xpath("/#{entity_name}/Multimedias/Multimedia/#{name}")
+  
+  if set.length > 0
+    node = set.first
+    value = node.content()
+  else
+    value = ''
+  end
+  row_hash[name] = value
+  
   # finally, write out the collected data as a row to the csv file
   csv << all_headers.collect { | key | row_hash[key] }
 
