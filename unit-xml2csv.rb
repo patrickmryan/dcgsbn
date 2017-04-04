@@ -2,12 +2,10 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-# iterate over the files listed on the command line
-
-if (ARGV.length == 0)
-  puts "specify at least one input file on the command line"
-  exit 1
-end
+#if (ARGV.length == 0)
+#  puts "specify at least one input file on the command line"
+#  exit 1
+#end
 
 standard_columns =
 ["Id",
@@ -58,8 +56,9 @@ csv << all_headers
 
 entity_name = 'Unit'
 
-# iterate over the files on the command line
-ARGV.each do | file |
+# read standard input.  expect one filename per line of input.
+$stdin.each do | line |
+  file = line.chomp()
   doc = File.open(file) { |f| Nokogiri::XML(f) }
 
   #doc.css(entity_name).each do |node|

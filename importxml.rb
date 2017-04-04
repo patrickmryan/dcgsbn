@@ -15,13 +15,24 @@ xmldir=ARGV[0]
 #equip_file_count = words.length()
 #equip_files = words.join(' ')
 
+rand = $$
+units_file="units.#{rand}.txt"
+equip_file="equip.#{rand}.txt"
+
+`ruby find-type.rb Unit #{xmldir} > #{units_file}`
+`ruby find-type.rb Equipment #{xmldir} > #{equip_file}`
 
 puts "processing Unit files"
-`ruby find-type.rb Unit #{xmldir} | ruby unit-xml2csv.rb > all-units.csv`
+`ruby unit-xml2csv.rb  < #{units_file} > all-units.csv`
 
 puts "processing Equipment files"
-`ruby find-type.rb Equipment #{xmldir} | ruby equip-xml2csv.rb > all-equip.csv`
+`ruby equip-xml2csv.rb < #{equip_file} > all-equip.csv`
 
 puts "processing Relationships"
-`ruby rel-xml2csv.rb #{unit_files} #{equip_files} > all-relationships.csv`
+# processing Units creates the file. then process Equipment and append the data w/o headers
+`ruby rel-xml2csv.rb < #{units_file}  > all-relationships.csv`
+`ruby rel-xml2csv.rb --noheaders < #{equip_file} >> all-relationships.csv`
 
+# delete temp files
+File.delete(units_file)
+File.delete(equip_file)

@@ -3,12 +3,13 @@ require 'nokogiri'
 require 'open-uri'
 
 # iterate over the files listed on the command line
+#
+#if (ARGV.length == 0)
+#  puts "specify at least one input file on the command line"
+#  exit 1
+#end
 
-if (ARGV.length == 0)
-  puts "specify at least one input file on the command line"
-  exit 1
-end
-
+noheaders = (ARGV.length > 0 && ARGV[0] == '--noheaders')
 
 csv = CSV($stdout, force_quotes: false)
 
@@ -23,10 +24,13 @@ rel_keys = [ 'Id',
 ]
 
 # write out the headers
-csv << rel_keys
+if (!noheaders)
+  csv << rel_keys
+end
 
-# iterate over the files on the command line
-ARGV.each do | file |
+# read standard input.  expect one filename per line of input.
+$stdin.each do | line |
+  file = line.chomp()
   
   doc = File.open(file) { |f| Nokogiri::XML(f) }
 
