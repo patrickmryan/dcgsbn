@@ -44,15 +44,13 @@ $stdin.each do | line |
       hash[e.name] = e.content()
     end
     
-    # remove extra stuff that precedes colon
     hash.each do | k, v|
-      parsed = /^(?<tag>[^:]+):\s*(?<value>.*)/.match(v)
-      if (parsed && parsed[:tag])  #
-        #puts parsed[:tag]
-        #puts parsed[:value]
-        
+      # remove extra stuff that precedes colon
+      matched = /^(?<tag>[^:]+):\s*(?<value>.*)/.match(v)
+      if (matched && matched[:tag])         
         # update the value to include everything after the colon
-        hash[k] = parsed[:value]  
+        hash[k] = matched[:value]  
+          
       end 
               
     end
