@@ -66,6 +66,19 @@ $stdin.each do | line |
     each.elements.each do |e|
       hash[e.name] = e.content()
     end
+    
+    # remove extra stuff that precedes colon
+    hash.each do | k, v|
+      parsed = /^(?<tag>[^:]+):\s*(?<value>.*)/.match(v)
+      if (parsed && parsed[:tag])  #
+        #puts parsed[:tag]
+        #puts parsed[:value]
+        
+        # update the value to include everything after the colon
+        hash[k] = parsed[:value]  
+      end 
+              
+    end
 
     row = csv_keys.collect { | k | hash[k] }
 
