@@ -2,15 +2,6 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-# iterate over the files listed on the command line
-#
-#if (ARGV.length == 0)
-#  puts "specify at least one input file on the command line"
-#  exit 1
-#end
-
-#noheaders = (ARGV.length > 0 && ARGV[0] == '--noheaders')
-
 csv = CSV($stdout, force_quotes: false)
 
 csv_keys = [ 
@@ -36,11 +27,6 @@ csv_keys = [
   'EntityType'
 ]
 
-## write out the headers
-#if (!noheaders)
-#  csv << rel_keys
-#end
-
 csv << csv_keys
 
 # read standard input.  expect one filename per line of input.
@@ -48,19 +34,10 @@ $stdin.each do | line |
   file = line.chomp()
   
   doc = File.open(file) { |f| Nokogiri::XML(f) }
-
   results = doc.xpath("//Organization")
-  #orgs = results
-  
-#  puts "results ->"   
-#  puts results.class.to_s + " " + results.length.to_s + " - " + results.to_s
-#  exit
 
   # iterate over the results
-  results.each do | each |
-    #puts each.class.to_s + " " + each.to_s
-    #exit
-    
+  results.each do | each |    
     # put all the values in a hash for easy access
     hash = Hash.new('')
     each.elements.each do |e|
