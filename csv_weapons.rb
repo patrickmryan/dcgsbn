@@ -42,7 +42,7 @@ while (n < arr_of_arrs.length)
     m=m+1
   end
 
-  [ 'ifv', 'mbt', 'mortar',  'radar' ].each do |w|
+  [ 'antitank', 'artillery', 'ifv', 'mbt', 'mortar',  'radar' ].each do |w|
     value = hash[w]  # is there a value in this column?
     if (value)
       weapons.concat(value.split(/\s*,\s*/))   # append all the found weapons
